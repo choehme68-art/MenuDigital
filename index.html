@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MenuDigital - Professionelle digitale Speisekarten für Restaurants</title>
+    <meta name="description" content="Professionelle digitale Speisekarten für Restaurants. SEO-optimiert, einfach zu finden & zu 100% steuerlich absetzbar. Jetzt mit Schnupperpreis!">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+    <!-- MD Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%232c7db1'/><text x='50%' y='50%' font-size='60' text-anchor='middle' dominant-baseline='middle' fill='white'>MD</text></svg>">
+    <style>
+        :root {
+            --primary: #2c7db1;
+            --primary-dark: #1e5a8a;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --gray: #6c757d;
+            --border-radius: 10px;
+            --box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: #f8f8f8;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header - kleiner gemacht */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            padding: 5px 0;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .logo i {
+            font-size: 1.5rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        .cta-button {
+            background-color: var(--primary);
+            color: white;
+            padding: 8px 16px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            font-size: 0.9rem;
+        }
+
+        .cta-button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section - angepasst wegen kleinerem Header */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background-color: white;
+            color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background-color: #f0f0f0;
+            transform: translateY(-3px);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255,255,255,0.1);
+            transform: translateY(-3px);
+        }
+
+        /* Features Section */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .feature-card p {
+            color: var(--gray);
+        }
+
+        /* Pricing Section */
+        .pricing {
+            background-color: #f0f7ff;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 40px 30px;
+            box-shadow: var(--box-shadow);
+            text-align: center;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .pricing-card.popular {
+            border: 3px solid var(--secondary);
+            transform: scale(1.05);
+            background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
+        }
+
+        .schnupper-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #ff6b6b, #ff8e8e);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .tax-info {
+            background-color: #e8f2ff;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .pricing-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 20px 0;
+        }
+
+        .price-small {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--gray);
+            margin: 10px 0;
+        }
+
+        .price-period {
+            font-size: 1rem;
+            color: var(--gray);
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .pricing-features li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            align-items: center;
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-features i {
+            color: var(--secondary);
+            margin-right: 10px;
+        }
+
+        /* Demo Section */
+        .demo {
+            text-align: center;
+        }
+
+        .demo-container {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: var(--box-shadow);
+            margin-top: 30px;
+        }
+
+        .demo-image {
+            max-width: 100%;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        /* Testimonials */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+            color: var(--gray);
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .author-info h4 {
+            margin-bottom: 5px;
+        }
+
+        .author-info p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* FAQ Section */
+        .faq-grid {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: white;
+            border-radius: var(--border-radius);
+            margin-bottom: 15px;
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-answer.active {
+            padding: 0 20px 20px;
+            max-height: 500px;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            text-align: center;
+            padding: 80px 0;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .cta p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #adb5bd;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #495057;
+            color: #adb5bd;
+            font-size: 0.9rem;
+        }
+
+        /* Contact Form */
+        .contact-form {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: var(--box-shadow);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+        }
+
+        /* Scroll to Top Button */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            z-index: 999;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-to-top:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-3px);
+        }
+
+        /* QR Code Styling */
+        #qrcode {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        #qrcode canvas {
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Steuer-Info Popup */
+        .steuer-popup-btn {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .steuer-popup-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+        }
+
+        #steuer-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .steuer-modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .steuer-modal-content h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .steuer-modal-content h3 {
+            color: var(--dark);
+            margin: 20px 0 10px 0;
+        }
+
+        .steuer-modal-content ul {
+            margin: 10px 0 20px 20px;
+        }
+
+        .steuer-modal-content li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav ul {
+                gap: 15px;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .pricing-card.popular {
+                transform: none;
+            }
+            
+            .scroll-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Scroll to Top Button -->
+    <div class="scroll-to-top" id="scrollToTop">
+        <i class="fas fa-chevron-up"></i>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-utensils"></i>
+                    <span>MenuDigital</span>
+                </div>
+                <nav>
+                    <ul>
+                        <li><a href="#features">Funktionen</a></li>
+                        <li><a href="#pricing">Preise</a></li>
+                        <li><a href="#demo">Demo</a></li>
+                        <li><a href="#testimonials">Referenzen</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#contact">Kontakt</a></li>
+                    </ul>
+                </nav>
+                <a href="#pricing" class="cta-button">Jetzt starten</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Digitale Speisekarten für Ihr Restaurant</h1>
+            <p>Modern, kostengünstig und einfach zu bedienen. Sparen Sie Druckkosten und bieten Sie Ihren Gästen ein einzigartiges digitales Erlebnis.</p>
+            <div class="hero-buttons">
+                <a href="#pricing" class="btn btn-primary">Preise ansehen</a>
+                <a href="#demo" class="btn btn-secondary">Kostenlose Live Demo</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Warum digitale Speisekarten?</h2>
+                <p>Unsere Lösung bietet alles, was Sie für einen reibungslosen Betrieb benötigen</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-euro-sign"></i>
+                    </div>
+                    <h3>Steuerlich absetzbar</h3>
+                    <p>Die Kosten sind zu 100% als Betriebsausgabe von der Steuer absetzbar - Sie sparen effektiv bis zu 100%!</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-print"></i>
+                    </div>
+                    <h3>Weniger Druckkosten</h3>
+                    <p>Sparen Sie hunderte Euro pro Jahr an Druckkosten - die Zukunft ist digital wie unsere Speisekarten.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h3>Echtzeit-Updates</h3>
+                    <p>Ändern Sie Preise, Gerichte oder Verfügbarkeiten sofort - ohne Druckkosten und Wartezeit.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>SEO-optimiert</h3>
+                    <p>Ihre Speisekarte wird bei Google & Co. gefunden - perfekt für lokale Suche nach "Restaurant [Ihre Stadt]".</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-allergies"></i>
+                    </div>
+                    <h3>Alle Allergene sichtbar</h3>
+                    <p>Automatische Kennzeichnung aller Allergene und Zusatzstoffe in jedem Menüpunkt für mehr Sicherheit.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-language"></i>
+                    </div>
+                    <h3>Mehrsprachige Menüs</h3>
+                    <p>Wählen Sie aus 15+ Sprachen für internationale Gäste - perfekt für Touristengebiete.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="section pricing">
+        <div class="container">
+            <div class="section-title">
+                <h2>Einfache, transparente Preise</h2>
+                <p>Starten Sie mit unserem Schnupperpreis und entscheiden Sie später</p>
+            </div>
+
+            <!-- Steuer-Info Button -->
+            <div style="text-align: center; margin-bottom: 30px;">
+                <button class="steuer-popup-btn" id="steuer-info-btn">
+                    <i class="fas fa-percentage"></i> 💰 Steuervorteil entdecken - Bis zu 100% sparen!
+                </button>
+            </div>
+
+            <div class="pricing-grid">
+                <div class="pricing-card popular">
+                    <div class="schnupper-badge">Schnupperpreis - 1. Jahr</div>
+                    <h3>Komplett-Paket</h3>
+                    <div class="price">100€ <span class="price-period">/ erstes Jahr</span></div>
+                    <div class="tax-info">✓ 100% von der Steuer absetzbar</div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Voll funktionsfähige digitale Speisekarte</li>
+                        <li><i class="fas fa-check"></i> Responsive Design für alle Geräte</li>
+                        <li><i class="fas fa-check"></i> QR-Code Integration</li>
+                        <li><i class="fas fa-check"></i> Alle Allergene & Zusatzstoffe</li>
+                        <li><i class="fas fa-check"></i> Auswahl aus 15+ Sprachen</li>
+                        <li><i class="fas fa-check"></i> SEO-Optimierung für Google</li>
+                        <li><i class="fas fa-check"></i> Ihre Fotos oder unsere Beispielfotos</li>
+                        <li><i class="fas fa-check"></i> E-Mail Support</li>
+                        <li><i class="fas fa-check"></i> Monatliche Backups</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-primary" style="width: 100%;">Jetzt Schnupperpreis sichern</a>
+                    
+                    <div style="margin-top: 30px; padding-top: 20px; border-top: 2px dashed #eee;">
+                        <h4 style="color: var(--gray); margin-bottom: 15px;">Ab dem 2. Jahr wählen Sie:</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div style="text-align: center; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+                                <div class="price-small">200€ <span class="price-period">/ Jahr</span></div>
+                                <p style="font-size: 0.9rem; color: var(--gray); margin: 5px 0 0 0;">Folgejahre</p>
+                            </div>
+                            <div style="text-align: center; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+                                <div class="price-small">800€ <span class="price-period">einmalig</span></div>
+                                <p style="font-size: 0.9rem; color: var(--gray); margin: 5px 0 0 0;">Lebenslang</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Steuer-Info Modal -->
+    <div id="steuer-modal" style="display: none;">
+        <div class="steuer-modal-content">
+            <h2><i class="fas fa-percentage"></i> Steuervorteil für Ihr Restaurant</h2>
+            
+            <h3>Ihre digitale Speisekarte ist zu 100% steuerlich absetzbar!</h3>
+            <p>Als Restaurantbesitzer können Sie die Kosten für Ihre digitale Speisekarte komplett von der Steuer absetzen:</p>
+            
+            <h3>Absetzbarkeit als Betriebsausgabe</h3>
+            <ul>
+                <li><strong>Schnupperpreis (100€):</strong> Sofortabzug als Betriebsausgabe</li>
+                <li><strong>Folgejahre (200€/Jahr):</strong> Laufende Kosten direkt absetzbar</li>
+                <li><strong>Lebenslang (800€):</strong> Sofortabzug als GWG (geringwertiges Wirtschaftsgut)</li>
+            </ul>
+
+            <h3>Mögliche Ansätze:</h3>
+            <ul>
+                <li><strong>Sofortabzug als Betriebsausgabe:</strong> Bei geringwertigen Wirtschaftsgütern unter 800€ netto</li>
+                <li><strong>Laufende Kosten:</strong> Monatliche/jährliche Gebühren direkt als Betriebsausgaben absetzbar</li>
+                <li><strong>Komplette Investition:</strong> Steuerlich voll abzugsfähig</li>
+            </ul>
+
+            <p style="background: #e8f5e9; padding: 15px; border-radius: 8px; margin-top: 20px;">
+                <strong>💡 Tipp:</strong> Sprechen Sie mit Ihrem Steuerberater über die optimale steuerliche Behandlung für Ihr Restaurant.
+            </p>
+
+            <button onclick="closeModal('steuer-modal')" style="margin-top: 20px; padding: 12px 30px; background: var(--primary); color: white; border: none; border-radius: 5px; cursor: pointer; width: 100%; font-size: 1rem;">
+                Verstanden
+            </button>
+        </div>
+    </div>
+
+    <!-- Demo Section -->
+    <section id="demo" class="section demo">
+        <div class="container">
+            <div class="section-title">
+                <h2>Kostenlose Live Demo</h2>
+                <p>Testen Sie unsere digitale Speisekarte in Aktion - komplett kostenlos und unverbindlich</p>
+            </div>
+            <div class="demo-container">
+                <p>Scannen Sie diesen QR-Code mit Ihrem Smartphone oder klicken Sie auf den Link:</p>
+                <div id="qrcode"></div>
+                <p><a href="https://choehme68-art.github.io/Restaurant/" target="_blank" style="color: var(--primary); font-weight: 600; font-size: 1.1rem;">Zur kostenlosen Live-Demo der Speisekarte</a></p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Was unsere Kunden sagen</h2>
+                <p>Erfahren Sie, wie Restaurants von unserer Lösung profitieren</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "Der Schnupperpreis war perfekt zum Ausprobieren! Nach dem ersten Jahr haben wir uns für die lebenslange Lösung entschieden. Wir sparen über 500€ pro Jahr an Druckkosten!"
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">MT</div>
+                        <div class="author-info">
+                            <h4>Michael Tanner</h4>
+                            <p>Gasthaus Zur Linde</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "Seit wir die digitale Speisekarte haben, werden wir bei Google viel besser gefunden! Gäste suchen nach 'Restaurant München' und finden direkt unsere Speisekarte."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">SW</div>
+                        <div class="author-info">
+                            <h4>Sabine Weber</h4>
+                            <p>Ristorante Bella Vista</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-text">
+                        "Als Betriebsausgabe komplett absetzbar - das war das i-Tüpfelchen! Der Steuervorteil macht die Investition noch attraktiver. Wir haben 15 Sprachen für unsere internationalen Gäste."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">KH</div>
+                        <div class="author-info">
+                            <h4>Klaus Hoffmann</h4>
+                            <p>Burger Meisterei</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Häufig gestellte Fragen</h2>
+                <p>Alles, was Sie vor dem Kauf wissen müssen</p>
+            </div>
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Wie funktioniert die SEO-Optimierung?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Ihre digitale Speisekarte wird so optimiert, dass sie bei Google & anderen Suchmaschinen gefunden wird. Wenn jemand nach "Restaurant [Ihre Stadt]" oder "[Ihr Restaurantname]" sucht, erscheint Ihre Speisekarte in den Suchergebnissen.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Welche Sprachen stehen zur Auswahl?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Sie können aus über 15 Sprachen wählen: Deutsch, Englisch, Französisch, Spanisch, Italienisch, Türkisch, Arabisch, Chinesisch, Japanisch, Russisch, Polnisch, Niederländisch, Portugiesisch, Griechisch und mehr. Perfekt für Restaurants in Touristengebieten!</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Was ist im Schnupperpreis enthalten?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Im Schnupperpreis ist das volle Komplett-Paket für das erste Jahr enthalten: Digitale Speisekarte, QR-Code, Allergenkennzeichnung, 15+ Sprachen, SEO-Optimierung, Einrichtung, Support und die Wahl zwischen Ihren Fotos oder unseren Beispielfotos.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Kann ich meine eigenen Fotos verwenden?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Ja! Sie können entweder Ihre eigenen professionellen Fotos verwenden oder wir integrieren appetitliche Beispielfotos für Sie. Beide Optionen sind im Preis enthalten.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Was passiert nach dem ersten Jahr?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Nach dem Schnupperjahr können Sie zwischen dem Folgejahres-Paket (200€/Jahr) oder dem Lebenslang-Paket (800€ einmalig) wählen. Beide sind zu 100% steuerlich absetzbar.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Kann ich die Kosten von der Steuer absetzen?</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Ja, absolut! Die Kosten für Ihre digitale Speisekarte sind zu 100% als Betriebsausgabe von der Steuer absetzbar.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Kontaktieren Sie uns</h2>
+                <p>Wir helfen Ihnen gerne bei der Digitalisierung Ihrer Speisekarte</p>
+            </div>
+            <div class="contact-form">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="restaurant">Restaurantname</label>
+                        <input type="text" id="restaurant" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="city">Stadt</label>
+                        <input type="text" id="city" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">E-Mail</label>
+                        <input type="email" id="email" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Telefon (optional)</label>
+                        <input type="tel" id="phone" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Nachricht</label>
+                        <textarea id="message" class="form-control" rows="5" placeholder="Haben Sie spezielle Wünsche oder Fragen?"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Kontaktanfrage senden</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2>Starten Sie noch heute!</h2>
+            <p>Digitalisieren Sie Ihre Speisekarte und sparen Sie Druckkosten. Mit unserem Schnupperpreis können Sie risikolos testen.</p>
+            <a href="#contact" class="btn btn-primary">Jetzt Schnupperpreis sichern</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>MenuDigital</h3>
+                    <p>Professionelle digitale Speisekarten für Restaurants. Modern, kostengünstig und steuerlich absetzbar.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Kontakt</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope"></i> info@menudigital.de</li>
+                        <li><i class="fas fa-phone"></i> +49 123 456 789</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Musterstadt, Deutschland</li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#features">Funktionen</a></li>
+                        <li><a href="#pricing">Preise</a></li>
+                        <li><a href="#demo">Demo</a></li>
+                        <li><a href="#testimonials">Referenzen</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Rechtliches</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Impressum</a></li>
+                        <li><a href="#">Datenschutz</a></li>
+                        <li><a href="#">AGB</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 MenuDigital. Alle Rechte vorbehalten.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // QR Code Generation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Generate QR Code for demo
+            var qrcode = new QRCode(document.getElementById("qrcode"), {
+                text: "https://choehme68-art.github.io/Restaurant/",
+                width: 200,
+                height: 200,
+                colorDark : "#2c7db1",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.H
+            });
+            
+            // FAQ Accordion
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', () => {
+                    const answer = question.nextElementSibling;
+                    const isActive = answer.classList.contains('active');
+                    
+                    // Close all answers
+                    document.querySelectorAll('.faq-answer').forEach(ans => {
+                        ans.classList.remove('active');
+                    });
+                    
+                    // If the clicked answer wasn't active, open it
+                    if (!isActive) {
+                        answer.classList.add('active');
+                    }
+                });
+            });
+            
+            // Scroll to Top Button
+            const scrollToTopBtn = document.getElementById('scrollToTop');
+            
+            window.addEventListener('scroll', () => {
+                if (window.pageYOffset > 300) {
+                    scrollToTopBtn.classList.add('visible');
+                } else {
+                    scrollToTopBtn.classList.remove('visible');
+                }
+            });
+            
+            scrollToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Contact Form Submission
+            document.getElementById('contactForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Vielen Dank für Ihre Anfrage! Wir melden uns schnellstmöglich bei Ihnen.');
+                this.reset();
+            });
+            
+            // Smooth Scrolling for Anchor Links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const headerHeight = document.querySelector('header').offsetHeight;
+                        const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // Steuer-Info Modal
+            document.getElementById('steuer-info-btn').addEventListener('click', function() {
+                document.getElementById('steuer-modal').style.display = 'flex';
+            });
+        });
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+        
+        // Close modal when clicking outside
+        window.addEventListener('click', function(e) {
+            const modal = document.getElementById('steuer-modal');
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
