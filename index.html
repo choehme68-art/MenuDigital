@@ -517,6 +517,7 @@
             text-decoration: none;
             transition: var(--transition);
             font-size: 0.9rem;
+            cursor: pointer;
         }
 
         .footer-links a:hover {
@@ -612,12 +613,12 @@
             height: auto;
         }
 
-        /* Steuer-Info Popup */
+        /* Steuer-Info Button */
         .steuer-popup-btn {
             background: linear-gradient(135deg, #27ae60, #2ecc71);
             border: none;
             color: white;
-            padding: 12px 20px;
+            padding: 12px 24px;
             border-radius: 25px;
             font-size: 0.95rem;
             font-weight: 600;
@@ -626,15 +627,26 @@
             margin: 15px 0;
             box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
             text-align: center;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 2px solid transparent;
         }
 
         .steuer-popup-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+            border-color: #219652;
         }
 
-        #steuer-modal {
+        .steuer-popup-btn .more-text {
+            font-size: 0.8rem;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        /* Modal Styles */
+        .modal {
             display: none;
             position: fixed;
             top: 0;
@@ -648,38 +660,59 @@
             padding: 15px;
         }
 
-        .steuer-modal-content {
+        .modal-content {
             background: white;
-            padding: 25px;
+            padding: 30px;
             border-radius: 15px;
-            max-width: 600px;
+            max-width: 700px;
             width: 100%;
             max-height: 85vh;
             overflow-y: auto;
             box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            position: relative;
         }
 
-        .steuer-modal-content h2 {
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--gray);
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .modal-close:hover {
+            color: var(--dark);
+        }
+
+        .modal-content h2 {
             color: var(--primary);
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             text-align: center;
             font-size: 1.5rem;
         }
 
-        .steuer-modal-content h3 {
+        .modal-content h3 {
             color: var(--dark);
-            margin: 15px 0 8px 0;
-            font-size: 1.1rem;
+            margin: 20px 0 10px 0;
+            font-size: 1.2rem;
         }
 
-        .steuer-modal-content ul {
-            margin: 8px 0 15px 20px;
+        .modal-content p {
+            margin-bottom: 15px;
+            line-height: 1.6;
         }
 
-        .steuer-modal-content li {
-            margin-bottom: 6px;
-            line-height: 1.4;
-            font-size: 0.9rem;
+        .modal-content ul {
+            margin: 10px 0 20px 25px;
+        }
+
+        .modal-content li {
+            margin-bottom: 8px;
+            line-height: 1.5;
         }
 
         /* Mobile Optimierungen */
@@ -785,6 +818,15 @@
                 height: 40px;
                 font-size: 1rem;
             }
+
+            .modal-content {
+                padding: 20px;
+            }
+
+            .steuer-popup-btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -816,8 +858,8 @@
                 font-size: 1.6rem;
             }
 
-            .steuer-modal-content {
-                padding: 20px;
+            .modal-content {
+                padding: 15px;
             }
         }
     </style>
@@ -881,7 +923,7 @@
                         <i class="fas fa-euro-sign"></i>
                     </div>
                     <h3>Steuerlich absetzbar</h3>
-                    <p>Die Kosten sind zu 100% als Betriebsausgabe von der Steuer absetzbar - Sie sparen effektiv bis zu 100%!</p>
+                    <p>Die Kosten sind als Betriebsausgabe absetzbar - eine kluge Investition für Ihr Restaurant.</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">
@@ -933,7 +975,7 @@
             <!-- Steuer-Info Button -->
             <div style="text-align: center; margin-bottom: 25px;">
                 <button class="steuer-popup-btn" id="steuer-info-btn">
-                    <i class="fas fa-percentage"></i> 💰 Steuervorteil entdecken - Bis zu 100% sparen!
+                    <i class="fas fa-percentage"></i> Steuervorteil entdecken <span class="more-text">Mehr...</span>
                 </button>
             </div>
 
@@ -942,7 +984,7 @@
                     <div class="schnupper-badge">Schnupperpreis - 1. Jahr</div>
                     <h3>Komplett-Paket</h3>
                     <div class="price">100€ <span class="price-period">/ erstes Jahr</span></div>
-                    <div class="tax-info">✓ 100% von der Steuer absetzbar</div>
+                    <div class="tax-info">✓ Als Betriebsausgabe absetzbar</div>
                     <ul class="pricing-features">
                         <li><i class="fas fa-check"></i> Voll funktionsfähige digitale Speisekarte</li>
                         <li><i class="fas fa-check"></i> Responsive Design für alle Geräte</li>
@@ -975,12 +1017,15 @@
     </section>
 
     <!-- Steuer-Info Modal -->
-    <div id="steuer-modal" style="display: none;">
-        <div class="steuer-modal-content">
+    <div id="steuer-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('steuer-modal')">
+                <i class="fas fa-times"></i>
+            </button>
             <h2><i class="fas fa-percentage"></i> Steuervorteil für Ihr Restaurant</h2>
             
-            <h3>Ihre digitale Speisekarte ist zu 100% steuerlich absetzbar!</h3>
-            <p>Als Restaurantbesitzer können Sie die Kosten für Ihre digitale Speisekarte komplett von der Steuer absetzen:</p>
+            <h3>Ihre digitale Speisekarte ist steuerlich absetzbar!</h3>
+            <p>Als Restaurantbesitzer können Sie die Kosten für Ihre digitale Speisekarte von der Steuer absetzen:</p>
             
             <h3>Absetzbarkeit als Betriebsausgabe</h3>
             <ul>
@@ -1054,7 +1099,7 @@
                 </div>
                 <div class="testimonial-card">
                     <div class="testimonial-text">
-                        "Als Betriebsausgabe komplett absetzbar - das war das i-Tüpfelchen! Der Steuervorteil macht die Investition noch attraktiver. Wir haben alle Sprachen für unsere internationalen Gäste."
+                        "Die mehrsprachigen Menüs sind ein Game-Changer für unser Restaurant in der Touristenregion. Jetzt können alle Gäste problemlos bestellen."
                     </div>
                     <div class="testimonial-author">
                         <div class="author-avatar">KH</div>
@@ -1118,16 +1163,7 @@
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="faq-answer">
-                        <p>Nach dem Schnupperjahr können Sie zwischen dem Folgejahres-Paket (200€/Jahr) oder dem Lebenslang-Paket (800€ einmalig) wählen. Beide sind zu 100% steuerlich absetzbar.</p>
-                    </div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">
-                        <span>Kann ich die Kosten von der Steuer absetzen?</span>
-                        <i class="fas fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-answer">
-                        <p>Ja, absolut! Die Kosten für Ihre digitale Speisekarte sind zu 100% als Betriebsausgabe von der Steuer absetzbar.</p>
+                        <p>Nach dem Schnupperjahr können Sie zwischen dem Folgejahres-Paket (200€/Jahr) oder dem Lebenslang-Paket (800€ einmalig) wählen.</p>
                     </div>
                 </div>
             </div>
@@ -1211,9 +1247,9 @@
                 <div class="footer-column">
                     <h3>Rechtliches</h3>
                     <ul class="footer-links">
-                        <li><a href="#">Impressum</a></li>
-                        <li><a href="#">Datenschutz</a></li>
-                        <li><a href="#">AGB</a></li>
+                        <li><a onclick="openModal('impressum-modal')">Impressum</a></li>
+                        <li><a onclick="openModal('datenschutz-modal')">Datenschutz</a></li>
+                        <li><a onclick="openModal('agb-modal')">AGB</a></li>
                     </ul>
                 </div>
             </div>
@@ -1222,6 +1258,113 @@
             </div>
         </div>
     </footer>
+
+    <!-- Impressum Modal -->
+    <div id="impressum-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('impressum-modal')">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2>Impressum</h2>
+            
+            <h3>Angaben gemäß § 5 TMG</h3>
+            <p><strong>MenuDigital GmbH</strong><br>
+            Musterstraße 123<br>
+            12345 Berlin<br>
+            Deutschland</p>
+
+            <h3>Vertreten durch</h3>
+            <p>Geschäftsführer: Max Mustermann</p>
+
+            <h3>Kontakt</h3>
+            <p>Telefon: +49 (0) 123 456 789<br>
+            E-Mail: info@menudigital.de<br>
+            Website: www.menudigital.de</p>
+
+            <h3>Registereintrag</h3>
+            <p>Eintragung im Handelsregister<br>
+            Registergericht: Amtsgericht Berlin<br>
+            Registernummer: HRB 123456</p>
+
+            <h3>Umsatzsteuer-ID</h3>
+            <p>Umsatzsteuer-Identifikationsnummer gemäß §27a Umsatzsteuergesetz:<br>
+            DE 123 456 789</p>
+
+            <h3>Verbraucherstreitbeilegung / Universalschlichtungsstelle</h3>
+            <p>Wir sind nicht bereit oder verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+
+            <h3>Haftung für Inhalte</h3>
+            <p>Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.</p>
+        </div>
+    </div>
+
+    <!-- Datenschutz Modal -->
+    <div id="datenschutz-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('datenschutz-modal')">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2>Datenschutzerklärung</h2>
+
+            <h3>1. Datenschutz auf einen Blick</h3>
+            <p><strong>Allgemeine Hinweise</strong><br>
+            Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit Ihren personenbezogenen Daten passiert, wenn Sie diese Website besuchen.</p>
+
+            <h3>2. Allgemeine Hinweise und Pflichtinformationen</h3>
+            <p><strong>Datenschutz</strong><br>
+            Die Betreiber dieser Seiten nehmen den Schutz Ihrer persönlichen Daten sehr ernst. Wir behandeln Ihre personenbezogenen Daten vertraulich und entsprechend der gesetzlichen Datenschutzvorschriften sowie dieser Datenschutzerklärung.</p>
+
+            <h3>3. Datenerfassung auf unserer Website</h3>
+            <p><strong>Cookies</strong><br>
+            Die Internetseiten verwenden teilweise so genannte Cookies. Cookies richten auf Ihrem Rechner keinen Schaden an und enthalten keine Viren. Cookies dienen dazu, unser Angebot nutzerfreundlicher, effektiver und sicherer zu machen.</p>
+
+            <p><strong>Kontaktformular</strong><br>
+            Wenn Sie uns per Kontaktformular Anfragen zukommen lassen, werden Ihre Angaben aus dem Anfrageformular inklusive der von Ihnen dort angegebenen Kontaktdaten zwecks Bearbeitung der Anfrage und für den Fall von Anschlussfragen bei uns gespeichert.</p>
+
+            <h3>4. Analyse-Tools und Tools von Drittanbietern</h3>
+            <p>Beim Besuch unserer Website kann Ihr Surf-Verhalten statistisch ausgewertet werden. Das geschieht vor allem mit Cookies und mit sogenannten Analyseprogrammen.</p>
+
+            <h3>5. Ihre Rechte</h3>
+            <p>Sie haben jederzeit das Recht unentgeltlich Auskunft über Herkunft, Empfänger und Zweck Ihrer gespeicherten personenbezogenen Daten zu erhalten. Sie haben außerdem ein Recht, die Berichtigung, Sperrung oder Löschung dieser Daten zu verlangen.</p>
+        </div>
+    </div>
+
+    <!-- AGB Modal -->
+    <div id="agb-modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('agb-modal')">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2>Allgemeine Geschäftsbedingungen (AGB)</h2>
+
+            <h3>§ 1 Geltungsbereich</h3>
+            <p>Diese Allgemeinen Geschäftsbedingungen gelten für alle Verträge zwischen der MenuDigital GmbH (nachfolgend "Anbieter") und dem Kunden (nachfolgend "Kunde") über die Bereitstellung digitaler Speisekarten.</p>
+
+            <h3>§ 2 Vertragsgegenstand</h3>
+            <p>Gegenstand des Vertrages ist die Bereitstellung einer digitalen Speisekarte für Restaurants und Gastronomiebetriebe. Der genaue Leistungsumfang ergibt sich aus der gewählten Paketvariante.</p>
+
+            <h3>§ 3 Vertragsschluss</h3>
+            <p>Der Vertrag kommt durch die Annahme des Angebots des Anbieters durch den Kunden zustande. Die Annahme kann schriftlich, per E-Mail oder durch Nutzung des Online-Bestellformulars erfolgen.</p>
+
+            <h3>§ 4 Preise und Zahlungsbedingungen</h3>
+            <p>Die Preise verstehen sich in Euro zzgl. der gesetzlichen Mehrwertsteuer. Die Zahlung erfolgt im Voraus für die gewählte Vertragslaufzeit. Bei Zahlungsverzug behält sich der Anbieter das Recht vor, die Leistungen zu sperren.</p>
+
+            <h3>§ 5 Leistungsumfang und Pflichten des Anbieters</h3>
+            <p>Der Anbieter stellt die digitale Speisekarte gemäß der beschriebenen Spezifikationen zur Verfügung. Änderungen an der Speisekarte werden nach Absprache mit dem Kunden durch den Anbieter vorgenommen.</p>
+
+            <h3>§ 6 Pflichten des Kunden</h3>
+            <p>Der Kunde ist verpflichtet, die erforderlichen Informationen und Materialien (Texte, Bilder) rechtzeitig und in der vereinbarten Qualität zur Verfügung zu stellen.</p>
+
+            <h3>§ 7 Laufzeit und Kündigung</h3>
+            <p>Die Mindestvertragslaufzeit beträgt 12 Monate. Danach verlängert sich der Vertrag jeweils um weitere 12 Monate, sofern er nicht mit einer Frist von 4 Wochen zum Ende der Laufzeit gekündigt wird.</p>
+
+            <h3>§ 8 Haftung</h3>
+            <p>Der Anbieter haftet unbeschränkt für Vorsatz und grobe Fahrlässigkeit. Bei leichter Fahrlässigkeit haftet der Anbieter nur bei Verletzung vertragswesentlicher Pflichten.</p>
+
+            <h3>§ 9 Schlussbestimmungen</h3>
+            <p>Es gilt das Recht der Bundesrepublik Deutschland. Erfüllungsort ist der Sitz des Anbieters. Gerichtsstand ist Berlin.</p>
+        </div>
+    </div>
 
     <script>
         // Mobile Navigation
@@ -1328,10 +1471,15 @@
             
             // Steuer-Info Modal
             document.getElementById('steuer-info-btn').addEventListener('click', function() {
-                document.getElementById('steuer-modal').style.display = 'flex';
-                document.body.style.overflow = 'hidden';
+                openModal('steuer-modal');
             });
         });
+        
+        // Modal Functions
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
         
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
@@ -1340,16 +1488,18 @@
         
         // Close modal when clicking outside
         window.addEventListener('click', function(e) {
-            const modal = document.getElementById('steuer-modal');
-            if (e.target === modal) {
-                closeModal('steuer-modal');
+            if (e.target.classList.contains('modal')) {
+                closeModal(e.target.id);
             }
         });
         
         // Close modal with Escape key
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
-                closeModal('steuer-modal');
+                const openModals = document.querySelectorAll('.modal[style*="display: flex"]');
+                openModals.forEach(modal => {
+                    closeModal(modal.id);
+                });
             }
         });
     </script>
